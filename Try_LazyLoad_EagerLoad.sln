@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try_LazyLoad_EagerLoad", "Try_LazyLoad_EagerLoad\Try_LazyLoad_EagerLoad.csproj", "{3A501971-F1C8-4363-B4AB-84E5C362C78F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A501971-F1C8-4363-B4AB-84E5C362C78F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A501971-F1C8-4363-B4AB-84E5C362C78F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A501971-F1C8-4363-B4AB-84E5C362C78F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A501971-F1C8-4363-B4AB-84E5C362C78F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C43EBD0-96F8-4A22-AFCE-C89BFF1D56B2}
+	EndGlobalSection
+EndGlobal
