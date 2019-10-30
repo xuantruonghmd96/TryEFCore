@@ -113,7 +113,7 @@ namespace Try_LazyLoad_EagerLoad.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Try_LazyLoad_EagerLoad.Models.ProductFactoryMap", b =>

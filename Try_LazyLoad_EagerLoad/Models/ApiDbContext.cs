@@ -15,6 +15,7 @@ namespace Try_LazyLoad_EagerLoad.Models
 
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchGroup> BranchGroups { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Factory> Factories { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
@@ -28,9 +29,6 @@ namespace Try_LazyLoad_EagerLoad.Models
             modelBuilder.Entity<BranchGroupMap>().HasKey(x => new { x.BranchId, x.BranchGroupId });
             modelBuilder.Entity<ProductTagMap>().HasKey(x => new { x.ProductId, x.ProductTagId });
             modelBuilder.Entity<ProductFactoryMap>().HasKey(x => new { x.ProductId, x.FactoryId });
-            //modelBuilder.Entity<BranchGroupMap>().HasNoKey();
-            //modelBuilder.Entity<ProductCategoryMap>().HasNoKey();
-            //modelBuilder.Entity<ProductFactoryMap>().HasNoKey();
         }
     }
 }

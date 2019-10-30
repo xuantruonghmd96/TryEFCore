@@ -108,7 +108,7 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -119,9 +119,9 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_ProductTypes_ProductTypeId",
+                        name: "FK_Products_ProductTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
                         principalTable: "ProductTypes",
                         principalColumn: "Id",
@@ -145,9 +145,9 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductFactoryMaps_Product_ProductId",
+                        name: "FK_ProductFactoryMaps_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -163,9 +163,9 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                 {
                     table.PrimaryKey("PK_ProductTagMaps", x => new { x.ProductId, x.ProductTagId });
                     table.ForeignKey(
-                        name: "FK_ProductTagMaps_Product_ProductId",
+                        name: "FK_ProductTagMaps_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -187,15 +187,14 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ProductTypeId",
-                table: "Product",
-                column: "ProductTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductFactoryMaps_FactoryId",
                 table: "ProductFactoryMaps",
-                column: "FactoryId",
-                unique: true);
+                column: "FactoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductTypeId",
+                table: "Products",
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductTagMaps_ProductTagId",
@@ -221,7 +220,7 @@ namespace Try_LazyLoad_EagerLoad.Migrations
                 name: "Factories");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "ProductTags");

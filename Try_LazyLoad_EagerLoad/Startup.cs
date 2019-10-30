@@ -14,6 +14,10 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Try_LazyLoad_EagerLoad.Models;
 using Microsoft.OpenApi.Models;
+using Microsoft.Data.SqlClient;
+using Dapper;
+using System.IO;
+using Try_LazyLoad_EagerLoad.Constants;
 
 namespace Try_LazyLoad_EagerLoad
 {
@@ -40,7 +44,7 @@ namespace Try_LazyLoad_EagerLoad
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +71,38 @@ namespace Try_LazyLoad_EagerLoad
             {
                 endpoints.MapControllers();
             });
+
+            dbContext.Database.Migrate();
+
+            try
+            {
+                ExecuteSQL(ReadFile(SQL_FILE_PATH.SEED_DATA, env), serviceProvider);
+            }
+            catch (Exception) { }
+        }
+
+        private int ExecuteSQL(string sql, IServiceProvider serviceProvider)
+        {
+            int result = 0;
+
+            using (System.Data.IDbConnection connection = new SqlConnection(Configuration.GetConnectionString("ApiDbContext")))
+            {
+                connection.Open();
+                connection.Execute(sql);
+            }
+            return result;
+        }
+
+        private static string ReadFile(string path, IWebHostEnvironment hostingEnvironment)
+        {
+            var fileInfo = hostingEnvironment.ContentRootFileProvider.GetFileInfo(path);
+
+            if (fileInfo.Exists)
+            {
+                return File.ReadAllText(fileInfo.PhysicalPath);
+            }
+
+            return string.Empty;
         }
     }
 }
