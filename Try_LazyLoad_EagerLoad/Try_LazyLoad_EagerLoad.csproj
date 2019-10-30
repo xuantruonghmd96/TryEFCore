@@ -7,6 +7,20 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191030031317_Init.cs" />
     <Compile Remove="Migrations\20191030031317_Init.Designer.cs" />
+    <Compile Remove="Migrations\20191030035338_Init.cs" />
+    <Compile Remove="Migrations\20191030035338_Init.Designer.cs" />
+    <Compile Remove="Migrations\20191030035629_Add_Factory.cs" />
+    <Compile Remove="Migrations\20191030035629_Add_Factory.Designer.cs" />
+    <Compile Remove="Migrations\20191030035956_Add_.cs" />
+    <Compile Remove="Migrations\20191030035956_Add_.Designer.cs" />
+    <Compile Remove="Migrations\20191030040408_Add_.cs" />
+    <Compile Remove="Migrations\20191030040408_Add_.Designer.cs" />
+    <Compile Remove="Migrations\20191030040631_Add_.cs" />
+    <Compile Remove="Migrations\20191030040631_Add_.Designer.cs" />
+    <Compile Remove="Migrations\20191030041101_Add_.cs" />
+    <Compile Remove="Migrations\20191030041101_Add_.Designer.cs" />
+    <Compile Remove="Migrations\20191030041206_Add_.cs" />
+    <Compile Remove="Migrations\20191030041206_Add_.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,10 +30,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
   </ItemGroup>
 
 </Project>
