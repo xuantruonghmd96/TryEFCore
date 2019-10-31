@@ -8,8 +8,8 @@ namespace Try_LazyLoad_EagerLoad.Models
     public class Product : GeneralEntity
     {
         public int? ProductTypeId { get; set; }
-        public ProductType ProductType { get; set; }
+        public virtual ProductType ProductType { get; set; }
         public virtual ICollection<ProductFactoryMap> ProductFactoryMaps { get; set; }
-        public virtual ICollection<ProductTagMap> ProductTagMaps { get; set; }
+        public virtual List<ProductTagMap> ProductTagMaps { get; set; }
     }
 }

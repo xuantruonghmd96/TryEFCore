@@ -30,5 +30,11 @@ namespace Try_LazyLoad_EagerLoad.Models
             modelBuilder.Entity<ProductTagMap>().HasKey(x => new { x.ProductId, x.ProductTagId });
             modelBuilder.Entity<ProductFactoryMap>().HasKey(x => new { x.ProductId, x.FactoryId });
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }

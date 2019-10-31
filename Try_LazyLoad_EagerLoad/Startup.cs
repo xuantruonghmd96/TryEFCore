@@ -18,6 +18,9 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using System.IO;
 using Try_LazyLoad_EagerLoad.Constants;
+using Try_LazyLoad_EagerLoad.Repositories;
+using Try_LazyLoad_EagerLoad.Services;
+using Newtonsoft.Json;
 
 namespace Try_LazyLoad_EagerLoad
 {
@@ -36,11 +39,19 @@ namespace Try_LazyLoad_EagerLoad
             services.AddControllers();
             services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApiDbContext")));
 
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +83,7 @@ namespace Try_LazyLoad_EagerLoad
                 endpoints.MapControllers();
             });
 
-            dbContext.Database.Migrate();
+            //dbContext.Database.Migrate();
 
             try
             {
