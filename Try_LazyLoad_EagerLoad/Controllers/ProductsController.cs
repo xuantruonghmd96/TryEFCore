@@ -57,12 +57,23 @@ namespace Try_LazyLoad_EagerLoad.Controllers
         [HttpGet("Eager/{amount}/{batch}")]
         public IActionResult GetEager(int amount = 0, int batch = 100)
         {
-            var res = this._dbContext.ProductFactoryMaps.Include(x => x.Product).Include(x => x.Factory);
+            //var res = this._dbContext.ProductFactoryMaps.Include(x => x.Product).Include(x => x.Factory);
+
             //List<FactoryModel> factories = new List<FactoryModel>();
             //foreach (var item in res)
             //{
             //    factories.AddRange(item.Factories);
             //}
+
+            var res = this._dbContext.Products
+                .Include(x => x.ProductType)
+                .Include(x => x.ProductTagMaps).ThenInclude(x => x.ProductTag)
+                .Include(x => x.ProductFactoryMaps).ThenInclude(x => x.Factory)
+                    .ThenInclude(x => x.Branch)
+                        .ThenInclude(x => x.BranchGroupMaps)
+                            .ThenInclude(x => x.BranchGroup)
+                .Select(x => new ProductModel(x));
+
             return Ok(res);
         }
     }

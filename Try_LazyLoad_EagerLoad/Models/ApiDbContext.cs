@@ -34,7 +34,7 @@ namespace Try_LazyLoad_EagerLoad.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            //optionsBuilder.UseLazyLoadingProxies();
+            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

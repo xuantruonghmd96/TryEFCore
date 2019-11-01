@@ -10,6 +10,6 @@ namespace Try_LazyLoad_EagerLoad.Models
         public int BranchId { get; set; }
 
         public virtual Branch Branch { get; set; }
-        public virtual ProductFactoryMap ProductFactoryMaps { get; set; }
+        public virtual ICollection<ProductFactoryMap> ProductFactoryMaps { get; set; }
     }
 }
