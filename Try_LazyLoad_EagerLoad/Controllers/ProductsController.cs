@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,8 @@ namespace Try_LazyLoad_EagerLoad.Controllers
         [HttpGet("One/{amount}/{batch}")]
         public IActionResult GetOne(int amount = 0, int batch = 10)
         {
-            var res = this._dbContext.Products.FirstOrDefault();
+            var res = this._dbContext.Products
+                .FirstOrDefault(x => x.Id == 50);
             return Ok(new ProductModel(res));
             //return this._dbContext.Products.Skip(amount).Take(batch).AsEnumerable().Select(x => new ProductModel(x));
         }
@@ -42,14 +44,16 @@ namespace Try_LazyLoad_EagerLoad.Controllers
                     .ThenInclude(x => x.Branch)
                         .ThenInclude(x => x.BranchGroupMaps)
                             .ThenInclude(x => x.BranchGroup)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Id == 50);
             return Ok(new ProductModel(res));
         }
 
         [HttpGet("{amount}/{batch}")]
         public IActionResult Get(int amount = 0, int batch = 10)
         {
-            var res = this._dbContext.Products.Select(x => new ProductModel(x)).AsEnumerable();
+            var res = this._dbContext.Products
+                .Where(x => x.Name.Contains("Product - 1")).Skip(amount).Take(batch)
+                .Select(x => new ProductModel(x));
             return Ok(res);
             //return this._dbContext.Products.Skip(amount).Take(batch).AsEnumerable().Select(x => new ProductModel(x));
         }
@@ -65,6 +69,9 @@ namespace Try_LazyLoad_EagerLoad.Controllers
             //    factories.AddRange(item.Factories);
             //}
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             var res = this._dbContext.Products
                 .Include(x => x.ProductType)
                 .Include(x => x.ProductTagMaps).ThenInclude(x => x.ProductTag)
@@ -72,7 +79,16 @@ namespace Try_LazyLoad_EagerLoad.Controllers
                     .ThenInclude(x => x.Branch)
                         .ThenInclude(x => x.BranchGroupMaps)
                             .ThenInclude(x => x.BranchGroup)
-                .Select(x => new ProductModel(x));
+                .Where(x => x.Name.Contains("Product - 1")).Skip(amount).Take(batch)
+                .Select(x => new ProductModel(x))
+                .AsEnumerable();
+
+            string name = res.First().Name;
+
+            sw.Stop();
+            Console.WriteLine("////////////////////////////////////");
+            Console.WriteLine("//////////////////////////////////// Eager Load Elapsed = {0}", sw.Elapsed);
+            Console.WriteLine("////////////////////////////////////");
 
             return Ok(res);
         }
