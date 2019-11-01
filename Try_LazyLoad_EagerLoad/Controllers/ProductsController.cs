@@ -28,32 +28,64 @@ namespace Try_LazyLoad_EagerLoad.Controllers
         [HttpGet("One/{amount}/{batch}")]
         public IActionResult GetOne(int amount = 0, int batch = 10)
         {
-            var res = this._dbContext.Products
-                .FirstOrDefault(x => x.Id == 50);
-            return Ok(new ProductModel(res));
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            var res = new ProductModel(this._dbContext.Products
+                .FirstOrDefault(x => x.Id == 50));
+
+            sw.Stop();
+            Console.WriteLine("////////////////////////////////////");
+            Console.WriteLine("//////////////////////////////////// Lazy Load Elapsed = {0}", sw.Elapsed);
+            Console.WriteLine("////////////////////////////////////");
+
+            string name = res.Factories.First().Branch.Name;
+
+            return Ok(res);
             //return this._dbContext.Products.Skip(amount).Take(batch).AsEnumerable().Select(x => new ProductModel(x));
         }
 
         [HttpGet("One/Eager/{amount}/{batch}")]
         public IActionResult GetOneEager(int amount = 0, int batch = 10)
         {
-            var res = this._dbContext.Products
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            var res = new ProductModel(this._dbContext.Products
                 .Include(x => x.ProductType)
                 .Include(x => x.ProductTagMaps).ThenInclude(x => x.ProductTag)
                 .Include(x => x.ProductFactoryMaps).ThenInclude(x => x.Factory)
                     .ThenInclude(x => x.Branch)
                         .ThenInclude(x => x.BranchGroupMaps)
                             .ThenInclude(x => x.BranchGroup)
-                .FirstOrDefault(x => x.Id == 50);
-            return Ok(new ProductModel(res));
+                .FirstOrDefault(x => x.Id == 50));
+
+            sw.Stop();
+            Console.WriteLine("////////////////////////////////////");
+            Console.WriteLine("//////////////////////////////////// Eager Load Elapsed = {0}", sw.Elapsed);
+            Console.WriteLine("////////////////////////////////////");
+
+            string name = res.Factories.First().Branch.Name;
+
+            return Ok(res);
         }
 
         [HttpGet("{amount}/{batch}")]
         public IActionResult Get(int amount = 0, int batch = 10)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             var res = this._dbContext.Products
                 .Where(x => x.Name.Contains("Product - 1")).Skip(amount).Take(batch)
-                .Select(x => new ProductModel(x));
+                .Select(x => new ProductModel(x))
+                .ToList();
+
+            sw.Stop();
+            Console.WriteLine("////////////////////////////////////");
+            Console.WriteLine("//////////////////////////////////// Lazy Load Elapsed = {0}", sw.Elapsed);
+            Console.WriteLine("////////////////////////////////////");
+
             return Ok(res);
             //return this._dbContext.Products.Skip(amount).Take(batch).AsEnumerable().Select(x => new ProductModel(x));
         }
@@ -81,9 +113,7 @@ namespace Try_LazyLoad_EagerLoad.Controllers
                             .ThenInclude(x => x.BranchGroup)
                 .Where(x => x.Name.Contains("Product - 1")).Skip(amount).Take(batch)
                 .Select(x => new ProductModel(x))
-                .AsEnumerable();
-
-            string name = res.First().Name;
+                .ToList();
 
             sw.Stop();
             Console.WriteLine("////////////////////////////////////");
